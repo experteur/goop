@@ -1,13 +1,59 @@
 package markdown
 
 import (
+	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/experteur/goop/internal/domain"
 )
 
-func LoadProject(path string) (*domain.Project, error) {
+func LoadProjects(baseDir string) ([]*domain.Project, error) {
+	// Verify base directory exists
+	if _, err := os.Stat(baseDir); os.IsNotExist(err) {
+		return nil, fmt.Errorf("base directory does not exist: %s", baseDir)
+	}
+
+	entries, err := os.ReadDir(baseDir)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read base directory: %w", err)
+	}
+
+	var projects []*domain.Project
+	var errors []error
+
+	for _, entry := range entries {
+		if !entry.IsDir() {
+			continue
+		}
+		projectDir := filepath.Join(baseDir, entry.Name())
+		projectFilePath := filepath.Join(projectDir, "project.md")
+
+		if _, err := os.Stat(projectFilePath); os.IsNotExist(err) {
+			continue
+		}
+		project, err := loadProject(projectFilePath)
+
+		if err != nil {
+			errors = append(errors, fmt.Errorf("failed to load %s: %w", entry.Name(), err))
+			continue
+		}
+
+		projects = append(projects, project)
+
+	}
+	if len(errors) > 0 {
+		if len(projects) == 0 {
+			return nil, fmt.Errorf("failed to load any projects: %v", errors)
+		}
+		// TODO: Logging of errors
+	}
+
+	return projects, nil
+}
+
+func loadProject(path string) (*domain.Project, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -20,7 +66,7 @@ func LoadProject(path string) (*domain.Project, error) {
 	frontmatter, body, err := extractFrontmatter(data)
 	status := normalizeStatus(frontmatter.Status)
 
-    title, description, err := extractTitleAndDescription(body)
+	title, description, err := extractTitleAndDescription(body)
 
 	project := &domain.Project{
 		Name:        title,

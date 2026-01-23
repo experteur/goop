@@ -13,13 +13,13 @@ func main() {
     if err != nil {
         log.Panic(err)
     }
-    projectDir := filepath.Join(cwd, "example")
-    howdyDir := filepath.Join(projectDir, "howdy")
-    projectPath := filepath.Join(howdyDir, "project.md")
+    projectsDir := filepath.Join(cwd, "example")
 
-    project, err := markdown.LoadProject(projectPath)
+    projects, err := markdown.LoadProjects(projectsDir)
     if err != nil {
         log.Panic(err)
     }
-    fmt.Printf("%+v\n", project)
+    for _, project := range projects{
+        fmt.Printf("%+v\n", project)
+    }
 }
