@@ -20,12 +20,7 @@ func LoadProject(path string) (*domain.Project, error) {
 	frontmatter, body, err := extractFrontmatter(data)
 	status := normalizeStatus(frontmatter.Status)
 
-	content := string(body)
-
-	splitString := strings.Split(content, "\n\n")
-
-	title := splitString[0]
-	description := splitString[1]
+    title, description, err := extractTitleAndDescription(body)
 
 	project := &domain.Project{
 		Name:        title,
