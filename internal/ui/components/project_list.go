@@ -5,6 +5,7 @@ import (
 	"sort"
 
 	"github.com/experteur/goop/internal/domain"
+	"github.com/experteur/goop/internal/ui"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
@@ -20,6 +21,8 @@ func NewProjectList() *ProjectList {
 	list := tview.NewList()
 	list.SetBorder(true)
 	list.SetTitle(" Projects ")
+	list.SetTitleColor(ui.Theme.TitleColor)
+	list.SetBorderColor(ui.Theme.BorderColor)
 
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Rune() {
@@ -95,9 +98,6 @@ func (pl *ProjectList) SetProjects(projects []*domain.Project) error {
 			pl.addProject(project)
 			currentIndex++
 		}
-
-		// Add spacing between sections
-		currentIndex++
 	}
 
 	// Set up selection handler
@@ -198,9 +198,6 @@ func (pl *ProjectList) getProjectAtIndex(index int) *domain.Project {
 			}
 			currentListIndex++
 		}
-
-		// Spacing
-		currentListIndex++
 	}
 
 	return nil

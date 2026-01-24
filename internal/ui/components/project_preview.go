@@ -2,6 +2,7 @@ package components
 
 import (
 	"github.com/experteur/goop/internal/domain"
+	"github.com/experteur/goop/internal/ui"
 	"github.com/rivo/tview"
 )
 
@@ -15,6 +16,8 @@ func NewProjectPreview() *ProjectPreview {
 	textView.SetBorder(true)
 	textView.SetTitle(" Preview ")
 	textView.SetDynamicColors(true)
+    textView.SetTitleColor(ui.Theme.TitleColor)
+	textView.SetBorderColor(ui.Theme.BorderColor)
 	textView.SetWordWrap(true)
 	textView.SetText("\n  Select a project to view details")
     return &ProjectPreview{
