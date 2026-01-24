@@ -21,3 +21,12 @@ func NewProjectPreview() *ProjectPreview {
         TextView: textView,
     }
 }
+
+func (pp *ProjectPreview) SetProject(project *domain.Project) {
+    pp.currentProject = project
+    pp.render()
+}
+
+func (pp *ProjectPreview) render() {
+    pp.SetText(pp.currentProject.Name)
+}

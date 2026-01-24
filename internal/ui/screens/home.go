@@ -21,17 +21,22 @@ func NewHomeScreen() *HomeScreen {
 		AddItem(projectList, 0, 4, true).    // 40% width, focusable
 		AddItem(projectPreview, 0, 6, false) // 60% width, not focusable
 
-	return &HomeScreen{
+    hs := &HomeScreen{
 		Flex:           flex,
 		projectList:    projectList,
 		projectPreview: projectPreview,
 		projects:       []*domain.Project{},
 	}
+
+	projectList.OnSelected(func(project *domain.Project) {
+		projectPreview.SetProject(project)
+	})
+
+    return hs
 }
 
 func (hs *HomeScreen) SetProjects(projects []*domain.Project) error {
-	for i, project := range projects {
-		hs.projectList.AddItem(project.Name, project.Description, rune(i), nil)
-	}
+    hs.projects = projects
+    hs.projectList.SetProjects(projects)
 	return nil
 }

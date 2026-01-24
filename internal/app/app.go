@@ -5,6 +5,7 @@ import (
 
 	"github.com/experteur/goop/internal/markdown"
 	"github.com/experteur/goop/internal/ui/screens"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
@@ -30,9 +31,23 @@ func (a *App) Run() error {
 
 	a.homeScreen.SetProjects(projects)
 
+	a.homeScreen.SetInputCapture(a.handleGlobalKeys)
+
 	a.tviewApp.SetRoot(a.homeScreen, true)
 	if err := a.tviewApp.Run(); err != nil {
 		return fmt.Errorf("app running failure: %v", err)
 	}
 	return nil
+}
+
+func (a *App) handleGlobalKeys(event *tcell.EventKey) *tcell.EventKey {
+	switch event.Rune() {
+	case 'q', 'Q':
+		// Quit the application
+		a.tviewApp.Stop()
+		return nil
+	}
+
+	// Let the event propagate to focused components
+	return event
 }
