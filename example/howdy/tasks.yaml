@@ -1,0 +1,24 @@
+- id: task-1
+  title: "Migrate logging pipeline"
+  status: done
+  description: "Move from old to new logging system"
+  notes: "Blocked waiting on vendor access"
+  created: 2026-01-15T10:00:00Z
+  updated: 2026-01-22T14:30:00Z
+- id: task-2
+  title: "Define SLOs"
+  status: backlog
+  description: "Establish service level objectives"
+  created: 2026-01-12T09:00:00Z
+  updated: 2026-01-12T09:00:00Z
+- id: task-3
+  title: "Alert tuning"
+  status: done
+  notes: "waiting on data"
+  created: 2026-01-10T11:00:00Z
+  updated: 2026-01-20T16:00:00Z
+- id: task-4
+  title: "Setup metrics"
+  status: done
+  created: 2026-01-05T08:00:00Z
+  updated: 2026-01-18T17:00:00Z

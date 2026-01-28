@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/experteur/goop/internal/domain"
+	"gopkg.in/yaml.v3"
 )
 
 func LoadProjects(baseDir string) ([]*domain.Project, error) {
@@ -29,11 +30,16 @@ func LoadProjects(baseDir string) ([]*domain.Project, error) {
 		}
 		projectDir := filepath.Join(baseDir, entry.Name())
 		projectFilePath := filepath.Join(projectDir, "project.md")
+		projectTaskPath := filepath.Join(projectDir, "tasks.yaml")
 
 		if _, err := os.Stat(projectFilePath); os.IsNotExist(err) {
 			continue
 		}
+        tasks, err := loadTasks(projectTaskPath)
+
 		project, err := loadProject(projectFilePath)
+
+        project.Tasks = tasks
 
 		if err != nil {
 			errors = append(errors, fmt.Errorf("failed to load %s: %w", entry.Name(), err))
@@ -93,4 +99,23 @@ func normalizeStatus(status string) domain.ProjectStatus {
 	default:
 		return domain.StatusInactive
 	}
+}
+
+func loadTasks(path string) ([]*domain.Task, error) {
+    var tasks []*domain.Task
+    if _, err := os.Stat(path); os.IsNotExist(err) {
+        return tasks, nil
+    }
+
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+    err = yaml.Unmarshal(data, &tasks)
+
+    fmt.Printf("Topics: %v\n", tasks)
+	for i, topic := range tasks {
+		fmt.Printf("Topic %d: %s\n", i+1, topic)
+	}
+    return tasks, nil
 }

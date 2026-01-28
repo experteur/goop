@@ -20,7 +20,7 @@ type ProjectList struct {
 func NewProjectList() *ProjectList {
 	list := tview.NewList()
 	list.SetBorder(true)
-	list.SetTitle(" Projects ")
+	list.SetTitle(" Project list ")
 	list.SetTitleColor(ui.Theme.TitleColor)
 	list.SetBorderColor(ui.Theme.BorderColor)
 

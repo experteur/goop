@@ -11,7 +11,11 @@ import (
 
 func main() {
 	projectsDir := getProjectsDir()
-	application := app.New(projectsDir)
+	application, err := app.New(projectsDir)
+    if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		os.Exit(1)
+    }
 	if err := application.Run(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
