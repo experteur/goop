@@ -112,10 +112,9 @@ func loadTasks(path string) ([]*domain.Task, error) {
 		return nil, err
 	}
     err = yaml.Unmarshal(data, &tasks)
-
-    fmt.Printf("Topics: %v\n", tasks)
-	for i, topic := range tasks {
-		fmt.Printf("Topic %d: %s\n", i+1, topic)
+	if err != nil {
+		return nil, err
 	}
+
     return tasks, nil
 }

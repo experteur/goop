@@ -14,6 +14,7 @@ type ProjectList struct {
 	*tview.List
 	projects       []*domain.Project
 	onSelected     func(*domain.Project)
+	onBack         func()
 	statusSections map[domain.ProjectStatus]int
 }
 
@@ -24,6 +25,10 @@ func NewProjectList() *ProjectList {
 	list.SetTitleColor(ui.Theme.TitleColor)
 	list.SetBorderColor(ui.Theme.BorderColor)
 
+	pl := &ProjectList{
+		List:           list,
+		statusSections: make(map[domain.ProjectStatus]int),
+	}
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Rune() {
 		case 'j':
@@ -42,14 +47,20 @@ func NewProjectList() *ProjectList {
 				list.SetCurrentItem(list.GetItemCount() - 1)
 			}
 			return nil
+		case 'q':
+			if pl.onBack != nil {
+				pl.onBack()
+			}
+			return nil
 		}
 		return event
 	})
 
-	return &ProjectList{
-		List:           list,
-		statusSections: make(map[domain.ProjectStatus]int),
-	}
+	return pl
+}
+
+func (pl *ProjectList) OnBack(callback func()) {
+	pl.onBack = callback
 }
 
 func (pl *ProjectList) OnSelected(callback func(*domain.Project)) {

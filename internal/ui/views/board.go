@@ -21,12 +21,19 @@ func NewBoardView(app *tview.Application) *BoardView { // needs app for SetFocus
         AddItem(list, 0, 6, true).
         AddItem(preview, 0, 4, false)
 
+
 	bv := &BoardView{
 		Flex:           flex,
-		projectList:    &components.ProjectList{},
-		projectPreview: &components.ProjectPreview{},
+		projectList:    list,
+		projectPreview: preview,
 		projects:       []*domain.Project{},
 	}
+
+	list.OnBack(func() {
+		if bv.onBack != nil {
+			bv.onBack()
+		}
+	})
 	return bv
 }
 func (bv *BoardView) SetProject(project *domain.Project) {
