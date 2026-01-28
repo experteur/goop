@@ -1,0 +1,38 @@
+- id: task-1
+  title: "Home view & Navigation"
+  status: done
+  description: "Navigate between homeview & board"
+  notes: "Blocked waiting on vendor access"
+  created: 2026-01-15T10:00:00Z
+  updated: 2026-01-22T14:30:00Z
+- id: task-2
+  title: "Project screen management"
+  status: in_progress
+  description: "Navigate between overview & board"
+  notes: "Blocked waiting on vendor access"
+  created: 2026-01-15T10:00:00Z
+  updated: 2026-01-22T14:30:00Z
+- id: task-3
+  title: "Kanban view"
+  status: backlog
+  description: "Create place holder for kanban view"
+  created: 2026-01-12T09:00:00Z
+  updated: 2026-01-12T09:00:00Z
+- id: task-4
+  title: "Populate Kanban with real tasks"
+  status: backlog
+  notes: "Load project tasks from yaml"
+  created: 2026-01-10T11:00:00Z
+  updated: 2026-01-20T16:00:00Z
+- id: task-5
+  title: "Task interaction"
+  status: backlog
+  notes: "Move, add, delete, modify Tasks"
+  created: 2026-01-05T08:00:00Z
+  updated: 2026-01-18T17:00:00Z
+- id: task-6
+  title: "Overview page"
+  notes: "Initialize a basic overview page"
+  status: backlog
+  created: 2026-01-05T08:00:00Z
+  updated: 2026-01-18T17:00:00Z

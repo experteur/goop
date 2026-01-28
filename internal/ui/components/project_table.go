@@ -101,7 +101,7 @@ func (pt *ProjectTable) GetSelectedProject() *domain.Project {
 
 // Private helper methods
 func (pt *ProjectTable) addHeaderRow() {
-	headers := []string{"STATUS", "HEALTH", "PROG", "NAME", "OWNER", "UPDATED"}
+	headers := []string{"STATUS", "HEALTH", "PROG", "NAME", "DESCRIPTION", "OWNER", "UPDATED"}
 
 	for col, header := range headers {
 		cell := tview.NewTableCell(header).
@@ -140,7 +140,14 @@ func (pt *ProjectTable) addProjectRow(project *domain.Project) {
 		SetExpansion(1) // Allow this column to expand
 	pt.SetCell(row, 3, nameCell)
 
-	// Column 4: OWNER
+	// Column 4: Description
+	descriptionCell := tview.NewTableCell(project.Description).
+		SetTextColor(ui.Theme.TextPrimary).
+		SetAlign(tview.AlignLeft).
+		SetExpansion(1) // Allow this column to expand
+	pt.SetCell(row, 4, descriptionCell)
+
+	// Column 5: OWNER
 	owner := project.Owner
 	if owner == "" {
 		owner = "–"
@@ -148,13 +155,13 @@ func (pt *ProjectTable) addProjectRow(project *domain.Project) {
 	ownerCell := tview.NewTableCell(owner).
 		SetTextColor(ui.Theme.TextSecondary).
 		SetAlign(tview.AlignLeft)
-	pt.SetCell(row, 4, ownerCell)
+	pt.SetCell(row, 5, ownerCell)
 
 	// Column 5: UPDATED
 	updatedCell := tview.NewTableCell(formatRelativeTime(project.LastUpdated)).
 		SetTextColor(ui.Theme.TextDim).
 		SetAlign(tview.AlignRight)
-	pt.SetCell(row, 5, updatedCell)
+	pt.SetCell(row, 6, updatedCell)
 }
 func (pt *ProjectTable) formatStatus(status domain.ProjectStatus) string {
 	switch status {
@@ -195,7 +202,7 @@ func (pt *ProjectTable) formatHealth(project *domain.Project) string {
 	}
 
 	// Option 3: Check if progress is low
-	if project.CalculateProgress() < 30 && len(project.Tasks) > 0 {
+	if project.CalculateProgress() < 10 && len(project.Tasks) > 0 {
 		return "✕" // Critical
 	}
 

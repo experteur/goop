@@ -8,4 +8,4 @@ tags:
 
 # The Gorgon
 
-Things are stranger
+Things are stranger!
