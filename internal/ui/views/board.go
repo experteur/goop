@@ -8,35 +8,42 @@ import (
 
 type BoardView struct {
 	*tview.Flex
-	projectList    *components.ProjectList
+    projectHeader  *components.ProjectHeader
+	// projectList    *components.ProjectList
 	projectPreview *components.ProjectPreview
 	projects       []*domain.Project
 	onBack         func()
 }
 
 func NewBoardView(app *tview.Application) *BoardView { // needs app for SetFocus
-    list := components.NewProjectList()
+    header := components.NewProjectHeader()
+    // list := components.NewProjectList()
     preview := components.NewProjectPreview()
     flex := tview.NewFlex().
-        AddItem(list, 0, 6, true).
-        AddItem(preview, 0, 4, false)
-
+        AddItem(header, 0, 2, true).
+        AddItem(preview, 0, 8, false)
+    flex.SetDirection(tview.FlexRow)
 
 	bv := &BoardView{
 		Flex:           flex,
-		projectList:    list,
+        projectHeader: header,
+		// projectList:    list,
 		projectPreview: preview,
 		projects:       []*domain.Project{},
 	}
 
-	list.OnBack(func() {
-		if bv.onBack != nil {
-			bv.onBack()
-		}
-	})
+	// list.OnBack(func() {
+	// 	if bv.onBack != nil {
+	// 		bv.onBack()
+	// 	}
+	// })
 	return bv
 }
 func (bv *BoardView) SetProject(project *domain.Project) {
+    bv.projectHeader.Update(project)
+    // if bv.projectHeader.Update != nil {
+    //     bv.projectHeader.Update(project)
+    // }
 
 }
 func (bv *BoardView) OnBack(handler func()) {
