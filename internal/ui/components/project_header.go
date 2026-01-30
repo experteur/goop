@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/experteur/goop/internal/domain"
+	"github.com/experteur/goop/internal/ui"
 	"github.com/rivo/tview"
 )
 
@@ -12,16 +13,19 @@ type ProjectHeader struct {
 }
 
 func NewProjectHeader() *ProjectHeader {
-	text:= tview.NewTextView()
-	text.SetBorder(true)
+	textView:= tview.NewTextView()
+	textView.SetBorder(true)
+    textView.SetTitleColor(ui.Theme.TitleColor)
+	textView.SetBorderColor(ui.Theme.BorderColor)
 	ph := &ProjectHeader{
-		text,
+		textView,
 	}
 	return ph
 }
 
 func (ph *ProjectHeader) Update(project *domain.Project) {
-	ph.SetTitle(project.Name)
+    paddedTitle := fmt.Sprintf(" %s ", project.Name)
+	ph.SetTitle(paddedTitle)
 	ph.SetText(ph.buildHeader(project))
 }
 
