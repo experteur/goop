@@ -24,7 +24,7 @@ func NewBoardView(app *tview.Application) *BoardView { // needs app for SetFocus
 	footer := components.NewFooter([]*components.Shortcut{
 		{Key: "h/l", Label: "switch column"},
 		{Key: "j/k", Label: "navigate tasks"},
-		{Key: "o", Label: "overview"},
+		// {Key: "o", Label: "overview"},
 		{Key: "q", Label: "back"},
 	})
 	columns := []*components.KanbanColumn{
@@ -34,6 +34,7 @@ func NewBoardView(app *tview.Application) *BoardView { // needs app for SetFocus
 		components.NewKanbanColumn("DONE", domain.StatusDone),
 	}
 
+	// a.boardView.SetInputCapture(a.handleGlobalKeys)
 	// Layout columns horizontally
 	columnsRow := tview.NewFlex().SetDirection(tview.FlexColumn)
 	for _, col := range columns {
@@ -54,6 +55,7 @@ func NewBoardView(app *tview.Application) *BoardView { // needs app for SetFocus
 		footer:  footer,
 	}
 
+    bv.SetInputCapture(bv.handleKeyEvent)
 	// list.OnBack(func() {
 	// 	if bv.onBack != nil {
 	// 		bv.onBack()
@@ -63,6 +65,7 @@ func NewBoardView(app *tview.Application) *BoardView { // needs app for SetFocus
 }
 
 func (bv *BoardView) handleKeyEvent(event *tcell.EventKey) *tcell.EventKey {
+    currentList := bv.columns[bv.focusedColumn]
 	switch event.Key() {
 	case tcell.KeyLeft:
 		bv.focusPreviousColumn()
@@ -77,6 +80,22 @@ func (bv *BoardView) handleKeyEvent(event *tcell.EventKey) *tcell.EventKey {
 			return nil
 		case 'l':
 			bv.focusNextColumn()
+			return nil
+		case 'j':
+			current := currentList.GetCurrentItem()
+			if current < currentList.GetItemCount()-1 {
+				currentList.SetCurrentItem(current + 1)
+			} else {
+				currentList.SetCurrentItem(0)
+			}
+			return nil
+		case 'k':
+			current := currentList.GetCurrentItem()
+			if current > 0 {
+				currentList.SetCurrentItem(current - 1)
+			} else {
+				currentList.SetCurrentItem(currentList.GetItemCount() - 1)
+			}
 			return nil
 		case 'q':
 			if bv.onBack != nil {

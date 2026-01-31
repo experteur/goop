@@ -54,7 +54,7 @@ func New(projectsDir string) (*App, error) {
 
 func (a *App) Run() error {
 	a.homeView.SetInputCapture(a.handleGlobalKeys)
-	a.boardView.SetInputCapture(a.handleGlobalKeys)
+	// a.boardView.SetInputCapture(a.handleGlobalKeys)
 	a.app.SetRoot(a.pages, true)
 	if err := a.app.Run(); err != nil {
 		return fmt.Errorf("app running failure: %v", err)
