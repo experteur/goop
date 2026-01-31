@@ -23,7 +23,7 @@ func NewProjectHeader() *ProjectHeader {
 	return ph
 }
 
-func (ph *ProjectHeader) Update(project *domain.Project) {
+func (ph *ProjectHeader) SetProject(project *domain.Project) {
     paddedTitle := fmt.Sprintf(" %s ", project.Name)
 	ph.SetTitle(paddedTitle)
 	ph.SetText(ph.buildHeader(project))

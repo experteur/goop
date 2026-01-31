@@ -19,6 +19,7 @@
   updated: 2026-01-20T16:00:00Z
 - id: task-4
   title: "Setup metrics"
+  description: "DataDoGraphana"
   status: done
   created: 2026-01-05T08:00:00Z
   updated: 2026-01-18T17:00:00Z
